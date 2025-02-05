@@ -21,13 +21,13 @@ final class CurrencyView: UIView {
     
     private let exchangeRateLabel: UILabel = {
         let label = UILabel()
-        label.text = "현재 환율: 1 USD = 1,350 KRW"
+        label.text = "현재 환율: 1 USD = 1,450 KRW"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16, weight: .medium)
         return label
     }()
     
-    private let amountTextField: UITextField = {
+    let amountTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "원화 금액을 입력하세요"
         textField.borderStyle = .roundedRect
@@ -36,7 +36,7 @@ final class CurrencyView: UIView {
         return textField
     }()
     
-    private let convertButton: UIButton = {
+    let convertButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("환전하기", for: .normal)
         button.backgroundColor = .systemBlue
@@ -46,7 +46,7 @@ final class CurrencyView: UIView {
         return button
     }()
     
-    private let resultLabel: UILabel = {
+    let resultLabel: UILabel = {
         let label = UILabel()
         label.text = "환전 결과가 여기에 표시됩니다"
         label.textAlignment = .center
