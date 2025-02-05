@@ -8,7 +8,7 @@
 import Foundation
 
 
-class CurrencyViewModel {
+final class CurrencyViewModel {
     
     
     var inputTextField: Observable<String?> = Observable(nil)

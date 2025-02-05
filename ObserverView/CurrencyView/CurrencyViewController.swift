@@ -9,10 +9,10 @@ import UIKit
 
 import SnapKit
 
-class CurrencyViewController: UIViewController {
+final class CurrencyViewController: UIViewController {
     
-    let currencyView = CurrencyView()
-    let currencyModel = CurrencyViewModel()
+    private var currencyView = CurrencyView()
+    private var currencyModel = CurrencyViewModel()
     
     override func loadView() {
         view = currencyView
