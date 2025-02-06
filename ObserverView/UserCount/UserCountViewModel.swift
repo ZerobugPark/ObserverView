@@ -12,21 +12,29 @@ class UserCountViewModel {
     let title = "Person List"
     let names = ["James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth", "David", "Barbara", "Richard", "Susan", "Joseph", "Jessica", "Thomas", "Sarah", "Charles", "Karen"]
     
-    var people: [Person] = []
+    var people: Observable<[Person]> = Observable([])
   
-    var loadButtonTapped: Observable<Void> = Observable(())
-    var addButtonTapped: Observable<Void> = Observable(())
-    var swipeButtonTapped: Observable<Int> = Observable((0))
+    var inputloadButtonTapped: Observable<Void> = Observable(())
+    var inputaddButtonTapped: Observable<Void> = Observable(())
+    var inputResetButtonTapped: Observable<Void> = Observable(())
+    var inputswipeButtonTapped: Observable<Int> = Observable((0))
+    
+    
+    
     
     
     init() {
-        loadButtonTapped.lazyBind { _ in
+        inputloadButtonTapped.lazyBind { _ in
             self.updateData(status: true)
         }
-        addButtonTapped.lazyBind { _ in
+        inputaddButtonTapped.lazyBind { _ in
             self.updateData(status: false)
         }
-        swipeButtonTapped.lazyBind { index in
+        inputResetButtonTapped.lazyBind { index in
+            self.people.value.removeAll()
+        }
+        
+        inputswipeButtonTapped.lazyBind { index in
             self.removeData(num: index)
         }
         
@@ -35,10 +43,10 @@ class UserCountViewModel {
     private func updateData(status: Bool) {
         
         if status {
-            people = loadData()
+            people.value = loadData()
         } else {
             let person = Person(name: names.randomElement()!, age: Int.random(in: 20...70))
-            people.append(person)
+            people.value.append(person)
         }
         
     }
@@ -55,7 +63,7 @@ class UserCountViewModel {
     
     private func removeData(num: Int) {
         
-        people.remove(at: num)
+        people.value.remove(at: num)
     }
     
     

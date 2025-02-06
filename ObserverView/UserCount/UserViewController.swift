@@ -25,6 +25,10 @@ class UserViewController: UIViewController {
         title = userModel.title
         setupTableView()
         setupActions()
+        
+        userModel.people.lazyBind { _ in
+            self.userView.tableView.reloadData()
+        }
     }
     
     
@@ -41,29 +45,29 @@ class UserViewController: UIViewController {
     }
     
     @objc private func loadButtonTapped() {
-        userModel.loadButtonTapped.value = ()
-        userView.tableView.reloadData()
+        userModel.inputloadButtonTapped.value = ()
+        
     }
     
     @objc private func resetButtonTapped() {
-        userModel.people.removeAll()
-        userView.tableView.reloadData()
+        userModel.inputResetButtonTapped.value = ()
+        
     }
     
     @objc private func addButtonTapped() {
-        userModel.addButtonTapped.value = ()
-        userView.tableView.reloadData()
+        userModel.inputaddButtonTapped.value = ()
+
     }
 }
 
 extension UserViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userModel.people.count
+        return userModel.people.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PersonCell", for: indexPath)
-        let person = userModel.people[indexPath.row]
+        let person = userModel.people.value[indexPath.row]
         cell.textLabel?.text = "\(person.name), \(person.age)세"
         return cell
     }
@@ -71,9 +75,9 @@ extension UserViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        var del = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+        let del = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
-            self.userModel.swipeButtonTapped.value = indexPath.row
+            self.userModel.inputswipeButtonTapped.value = indexPath.row
             tableView.reloadData()
             
             success(true)
